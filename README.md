@@ -1,16 +1,16 @@
 # AutoGen Service API Chatbot
 
-The app is created to go through an end-to-end deployment of a streamlit app to Azure App Service. It was a bumpy journey. It worked finally but the experience was quite frustrating.
+The app is created to go through an end-to-end deployment of a streamlit app to Azure App Service. It was a bumpy journey and took me several hours. It worked finally but the experience was quite frustrating.
 
 ## Use Visual Code
 
 - It may be convenient, but it is not working reliably.
 - It takes a long time (like 20+ minutes) to complete it.
 - Sometimes the deployment is stuck with no info given in Visual Code or Azure App Service.
-- Even after it is deployed, the app can't start with the issue: *the chromadb issue with sqlite3*.
+- Even after it is deployed, the app can't start with the issue: *the chromadb issue with sqlite3*. This is the same issue when deploying the app to Streamlit Cloud.
 - Azure Log Stream has serious delay and misses any log, which basically is useless.
 
-## Use github action to deploy to App Service
+## Use Github Action
 
 - I set up continuous deployment in Deployment Center.
 - Similarly to the deployment from Visual Code, it takes a long time (18+ minutes) to Run azure/webapps-deploy@v3. The build performance is tolerable.
