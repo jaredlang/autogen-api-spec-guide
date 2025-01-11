@@ -65,14 +65,14 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_7DAFE52ABE3F422FA503E283EFC03528 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_ABC540EB07734C748643B62C252F3244 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_BD0F3C3EF450493CA43A80D31F1CF637 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_API_DEV_GUIDE_CLIENTID }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_API_DEV_GUIDE_TENANTID }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_API_DEV_GUIDE_SUBSCRIPTIONID }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
-          app-name: 'api-service-chatbot'
+          app-name: 'api-dev-guide'
           slot-name: 'Production'
           
