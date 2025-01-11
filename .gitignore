@@ -31,10 +31,13 @@ MANIFEST
 
 # visual code
 .vscode/
+.deployment
 
 # exclude everything under the folders
 input/*
 output/*
+tmp/**
+temp/**
 
 # exception to the rule and keep the output folder
 !input/.gitkeep 
