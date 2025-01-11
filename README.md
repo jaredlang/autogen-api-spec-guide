@@ -19,13 +19,13 @@ The app is created to go through an end-to-end deployment of a streamlit app to 
 ## Deploy a dockerized image
 
 - This approach is the only one that works. But there are a lot of catches after the successful local run.
-    a. The port must be 8501 due to Azure App Service network restriction.
-    b. The startup command must be *CMD [ "bash", "./startup.sh"]*.
-    c. Azure Container Registry must be in the same region as the ASP.
-    d. The image is almost 10GB (crazy!). The slim image only gives a couple of GB saving. It didn't help much.
-    e. With my upload network bandwidth, it took about 30+ minutes to push the image to Azure CR.
-    f. The troubleshooting is problematic. Azure Log Stream offers no help, but frustration.
-    g. Azure does offer continuous deployment to the container-based deployment, but there is a good amount of delay between an image is pushed and the deployment is trigger.
+    * **The port must be 8501** due to Azure App Service network restriction.
+    * The startup command need to be *CMD [ "bash", "./startup.sh"]* in the docker image.
+    * Azure Container Registry must be in the same region as the ASP.
+    * The image is almost 10GB (crazy!). The slim image only gives a couple of GB saving. It didn't help much.
+    * With my upload network bandwidth, it took about 30+ minutes to push the image to Azure CR.
+    * The troubleshooting is problematic. Azure Log Stream offers no help, but frustration.
+    * Azure does offer continuous deployment to the container-based deployment, but there is a good amount of delay between an image is pushed and the deployment is trigger. Not reliable!
 - At the end the app runs. It requires a lot of work compared with the other two.
 - The warmup duration is pretty long at the first time, but it gets shorter afterwards.
 - Then I ran into several issues:
