@@ -1,4 +1,4 @@
-FROM python:3.12.8-slim-bullseye
+FROM python:3.12
 
 EXPOSE 8501
 
