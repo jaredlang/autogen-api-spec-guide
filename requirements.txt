@@ -1,0 +1,7 @@
+flaml[automl]
+autogen-agentchat==0.2.40
+autogen-agentchat[anthropic]==0.2.40
+autogen-agentchat[retrievechat]==0.2.40
+autogen-agentchat[teachable]==0.2.40
+pymongo
+streamlit

@@ -1,0 +1,396 @@
+swagger: "2.0"
+info:
+  description: |
+    ### The Inventory API allows you to retrieve inventory for a product based on warehouse, account, and/or product ID.
+
+    A simple `GET` to retrieve inventory for a single product ID based on warehouse and account as query parameters:
+     ```js
+     [GET]/v1/inventory/{productID}?whseId={string}&accountId={string}
+     ```
+
+    For each product ID provided, returns the sum of available quantities across all warehouses within the specified account:
+     ```js
+     [POST]/v1/inventory/summary
+     ```
+
+    For each product ID provided, returns the available quantity at the specified account and warehouse:
+     ```js
+     [POST]/v1/inventory
+     ```
+     &nbsp;
+  version: 1.0.1
+  title: Ferguson's Inventory API
+  contact:
+    name: Ferguson API Support
+    email: api.team@ferguson.com
+host: uatapi2.ferguson.com
+basePath: /v1
+tags:
+- name: Inventory Services
+schemes:
+- https
+security:
+- application: []
+paths:
+  /inventory/{productID}:
+    get:
+      tags:
+      - Inventory Services
+      summary: Retrieve inventory for a product based on warehouse and account.
+      description: Retrieve inventory for a product based on warehouse and account.
+      operationId: inventoryRetriever
+      produces:
+      - application/json
+      parameters:
+      - name: productID
+        in: path
+        description: Product ID
+        required: true
+        type: string
+      - name: whseId
+        in: query
+        description: Warehouse Id
+        required: true
+        type: string
+      - name: accountId
+        in: query
+        description: Account Id
+        required: true
+        type: string
+      - name: fei-trans-id
+        in: header
+        description: Consumer Transaction ID
+        required: false
+        type: string
+      responses:
+        "200":
+          description: Request succeeded
+          examples:
+            "200 - Success":
+              itemId: "4098614"
+              locationID: MYERS*2352
+              quantity: 0
+              isError: false
+              transId: 7ad86dde-fd6d-4f58-a63b-09cf72aaa736
+          schema:
+            $ref: '#/definitions/RetrieveInventoryResponse'
+        "400":
+          description: Bad request
+          examples:
+            "400 - mandatory.field.missing":
+              validationError:
+              - field: whseId
+                errorCode: mandatory.field.missing
+                entity: inventory
+                errorMsg: Mandatory field whseId is missing in the request
+              isError: true
+              respMsg: Bad request
+              respCode: bad.request
+              transId: ec6a9de5-99ff-4a53-adfc-a4ca4e887db8
+          schema:
+            $ref: '#/definitions/inline_response_400'
+        "404":
+          description: Not Found
+        "500":
+          description: Severe error
+          examples:
+            "500 - mongo.db.error":
+              isError: true
+              respMsg: A mongo db error occurred at the server
+              respCode: mongo.db.error
+              transId: 56ca78d2-bf94-470e-88fd-0e20bb96348a
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /inventory/summary:
+    post:
+      tags:
+      - Inventory Services
+      summary: "For each product ID provided, returns the sum of available quantities across all warehouses within the specified account."
+      description: "For each product ID provided, returns the sum of available quantities across all warehouses within the specified account."
+      operationId: listofProductQuantitySummary
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: listofProductQuantitySummaryRequest
+        description: listofProductQuantitySummaryRequest
+        required: true
+        schema:
+          $ref: '#/definitions/listofProductQuantitySummaryRequest'
+      responses:
+        "200":
+          description: Request succeeded
+          examples:
+            "200 - Success":
+              productQuantity:
+              - productId: "12344"
+                quantity: 123
+                stocked: true
+          schema:
+            $ref: '#/definitions/ProductQuantityResponse'
+        "400":
+          description: Bad request
+          examples:
+            "400 - mandatory.field.missing":
+              validationError:
+              - field: whseId
+                errorCode: mandatory.field.missing
+                entity: inventory
+                errorMsg: Mandatory field whseId is missing in the request
+              isError: true
+              respMsg: Bad request
+              respCode: bad.request
+              transId: ec6a9de5-99ff-4a53-adfc-a4ca4e887db8
+          schema:
+            $ref: '#/definitions/inline_response_400'
+        "500":
+          description: Severe error
+          examples:
+            "500 - mongo.db.error":
+              isError: true
+              respMsg: A mongo db error occurred at the server
+              respCode: mongo.db.error
+              transId: 56ca78d2-bf94-470e-88fd-0e20bb96348a
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /inventory:
+    post:
+      tags:
+      - Inventory Services
+      summary: "For each product ID provided, returns the available quantity at the specified account and warehouse."
+      description: "For each product ID provided, returns the available quantity at the specified account and warehouse."
+      operationId: listofProductQuantity
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: listofProductQuantityRequest
+        description: listofProductQuantityRequest
+        required: true
+        schema:
+          $ref: '#/definitions/listofProductQuantityRequest'
+      responses:
+        "200":
+          description: Request succeeded
+          examples:
+            "200 - Success":
+              productQuantity:
+              - productId: "12344"
+                quantity: 123
+                stocked: false
+          schema:
+            $ref: '#/definitions/ProductQuantityResponse'
+        "400":
+          description: Bad request
+          examples:
+            "400 - mandatory.field.missing":
+              validationError:
+              - field: whseId
+                errorCode: mandatory.field.missing
+                entity: inventory
+                errorMsg: Mandatory field whseId is missing in the request
+              isError: true
+              respMsg: Bad request
+              respCode: bad.request
+              transId: ec6a9de5-99ff-4a53-adfc-a4ca4e887db8
+          schema:
+            $ref: '#/definitions/inline_response_400'
+        "500":
+          description: Severe error
+          examples:
+            "500 - mongo.db.error":
+              isError: true
+              respMsg: A mongo db error occurred at the server
+              respCode: mongo.db.error
+              transId: 56ca78d2-bf94-470e-88fd-0e20bb96348a
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+securityDefinitions:
+  application:
+    description: |
+      This API uses OAuth 2.0 client credentials grant type. You must use a Content-Type header of 'application/x-www-form-urlencoded' with form parameters of grant_type=client_credentials.
+
+      You can also specify an additional form parameter of 'expires_in' so long as it is less than 3600 seconds.
+      &nbsp;
+    type: oauth2
+    tokenUrl: https://uatapi2.ferguson.com/oauth2/token
+    flow: application
+definitions:
+  RetrieveInventoryResponse:
+    allOf:
+    - $ref: '#/definitions/BaseResponse'
+    - type: object
+      properties:
+        itemId:
+          type: string
+          example: "2249333"
+          description: Refers to the Product/Item Id
+        locationID:
+          type: string
+          example: MYERS*2352
+          description: Refers to the combination of Account id and Warehouse id
+        quantity:
+          type: number
+          format: double
+          example: 123.0
+          description: Aggregated available quantity present for the given item-location combination.
+  RetrieveInventoryValidationResponse:
+    allOf:
+    - $ref: '#/definitions/ErrorResponse'
+    - type: object
+      properties:
+        validationError:
+          type: array
+          description: Array of 1-N validation errors
+          title: Validation Errors
+          items:
+            $ref: '#/definitions/RetrieveInventoryValidationResponse_validationError'
+  listofProductQuantitySummaryRequest:
+    allOf:
+    - type: object
+      required:
+      - accountId
+      - productIds
+      properties:
+        accountId:
+          type: string
+          description: Account Id
+          title: Account Id
+          minLength: 1
+          maxLength: 1000
+        productIds:
+          type: array
+          description: Product Ids
+          title: Product Ids
+          items:
+            type: string
+            minLength: 1
+            maxLength: 1000
+          maxItems: 100
+          minItems: 1
+    - {}
+  listofProductQuantityRequest:
+    allOf:
+    - type: object
+      required:
+      - accountId
+      - productIds
+      - whseId
+      properties:
+        whseId:
+          type: string
+          description: Warehouse Id
+          title: Warehouse Id
+          minLength: 1
+          maxLength: 1000
+        accountId:
+          type: string
+          description: Account Id
+          title: Account Id
+          minLength: 1
+          maxLength: 1000
+        productIds:
+          type: array
+          description: Product Ids
+          title: Product Ids
+          items:
+            type: string
+            minLength: 1
+            maxLength: 1000
+          maxItems: 100
+          minItems: 1
+    - {}
+  ProductQuantityResponse:
+    allOf:
+    - $ref: '#/definitions/BaseResponse'
+    - type: object
+      properties:
+        productQuantity:
+          type: array
+          description: List of Product Quantities
+          title: List of Product Quantities
+          items:
+            $ref: '#/definitions/ProductQuantity'
+  ProductQuantity:
+    type: object
+    properties:
+      productId:
+        type: string
+        description: Product Id
+        title: Product Id
+      quantity:
+        type: number
+        format: double
+        example: 123.0
+        description: Aggregated available quantity present for the given item-location combination.
+      stocked:
+        type: boolean
+        description: "TRUE if the quantity is available, FALSE otherwise"
+        title: Stocked
+        default: true
+  BaseResponse:
+    type: object
+    properties:
+      isError:
+        type: boolean
+        example: false
+        description: Flag to determine error or success
+        title: Error
+      transId:
+        type: string
+        example: 90565912-885b-4b3f-8bab-82819b8d1e05
+        description: Transaction ID for logging
+        title: Transaction ID
+    description: Base Response
+  ErrorResponse:
+    type: object
+    properties:
+      isError:
+        type: boolean
+        example: true
+        description: Flag to determine error
+        title: Error
+      respMsg:
+        type: string
+        example: Invalid Warehouse Id
+        description: Response message
+        title: Response message
+      respCode:
+        type: string
+        example: get.inventory.invalid.whse.id
+        description: Response Code
+        title: Response Code
+      transId:
+        type: string
+        example: 90565912-885b-4b3f-8bab-82819b8d1e05
+        description: Transaction ID for logging
+        title: Transaction ID
+    description: Error Response
+  inline_response_400:
+    type: object
+    properties:
+      RetrieveInventoryValidationResponse:
+        $ref: '#/definitions/RetrieveInventoryValidationResponse'
+  RetrieveInventoryValidationResponse_validationError:
+    type: object
+    properties:
+      errorCode:
+        type: string
+        example: get.inventory.mandatory.field.missing
+        description: Error Code related to field in error
+        title: Error Code
+      errorMsg:
+        type: string
+        example: Mandatory field is missing
+        description: Error Message related to Error Code
+        title: Error Message
+      entity:
+        type: string
+        example: inventory
+        description: Business Entity to which the Error Code applies
+        title: Inventory
+      field:
+        type: string
+        example: whseId
+        description: Field within the Business Entity in Error
+        title: Field in Error
