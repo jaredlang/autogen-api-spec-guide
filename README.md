@@ -39,7 +39,7 @@ With the frustrating experience with Azure App Service, I want to try the deploy
 
 1. Create a space *Api Dev Chatbot* in HuggingFace.co, <https://huggingface.co/spaces/liangchen76/api-dev-chatbot>.
 2. Decide to build a docker image to avoid the chromadb issue with sqlite3, even though HF does provide a streamlit deployment.
-3. Keep everything else the same and push it to HF.
+3. (**HF only opens port 7860**)<https://huggingface.co/spaces/liangchen76/api-dev-chatbot/blob/main/Dockerfile>. Keep everything else the same and push the source code to the HF space.
 4. Have to set up ssh to commit to HF space.
 5. Have to follow (this template)<https://huggingface.co/spaces/liangchen76/api-dev-chatbot/blob/main/README.md> in README.md.
 6. After the source code is pushed, the build and deployment are significantly faster than Azure.
