@@ -32,3 +32,18 @@ The app is created to go through an end-to-end deployment of a streamlit app to 
   - Firstly, it ran into an issue: Not able to access MongoDB Atlas. I changed the MongoDB network settings to all network access. It fixed the issue.
   - Secondly, occasionally I ran into this error after several initial runs: "ValueError: Could not connect to tenant default_tenant. Are you sure it exists?". The issue can be fixed by restarting the app service. The chromadb file definitely exists. Haven't yet investigated it.
   - Thirdly, even with the Premium0V3 (P0v3) ASP, it takes several minutes to get a response. It is much slower than the local hosting, which is understandable.
+
+## Deploy to HuggingFace.co
+
+With the frustrating experience with Azure App Service, I want to try the deployment on HuggingFace.
+
+1. Create a space *Api Dev Chatbot* in HuggingFace.co, <https://huggingface.co/spaces/liangchen76/api-dev-chatbot>.
+2. Decide to build a docker image to avoid the chromadb issue with sqlite3, even though HF does provide a streamlit deployment.
+3. Keep everything else the same and push it to HF.
+4. Have to set up ssh to commit to HF space.
+5. Have to follow (this template)<https://huggingface.co/spaces/liangchen76/api-dev-chatbot/blob/main/README.md> in README.md.
+6. After the source code is pushed, the build and deployment are significantly faster than Azure.
+7. Even with the free tier, the running performance is pretty good. It is way better than Azure App Service free tier.
+8. One catch: the whole space can either be private or public, including the source code.
+
+**The plumbing work is killing the productivity.**
