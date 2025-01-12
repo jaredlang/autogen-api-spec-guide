@@ -42,8 +42,8 @@ With the frustrating experience with Azure App Service, I want to try the deploy
 3. [HF only opens **port 7860**](https://huggingface.co/spaces/liangchen76/api-dev-chatbot/blob/main/Dockerfile). Keep everything else the same and push the source code to the HF space.
 4. Have to set up ssh to commit to HF space.
 5. HF requires [this README template](https://huggingface.co/spaces/liangchen76/api-dev-chatbot/blob/main/README.md).
-6. After the source code is pushed, the build and deployment are significantly faster than Azure.
-7. Even with the free tier, the running performance is pretty good. It is way better than Azure App Service free tier.
+6. After the source code is pushed, the build and deployment are significantly faster than ALL previous options.
+7. Even with the free tier, the running performance is pretty good. It is way better than Azure App Service, including the Premium0V3 tier. Wow! 
 8. One catch: the whole space can either be private or public, including the source code.
 
 **The plumbing work is killing the productivity.**
