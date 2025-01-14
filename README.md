@@ -46,5 +46,9 @@ With the frustrating experience with Azure App Service, I want to try the deploy
 7. Even with the free tier, the running performance is pretty good. It is way better than Azure App Service, including the Premium0V3 tier. Wow!
 8. Because the image is built with the committed source code, the .streamlit toml file is not included. The API keys have to be added in the space environment.
 9. One catch: the whole space can either be private or public, including the source code.
+10. The source code is committed to (Github Code Repo)(https://github.com/jaredlang/api-dev-chatbot-hf.git) as a follower.
+
+- This issue also occurred on HF, "ValueError: Could not connect to tenant default_tenant. Are you sure it exists?"
+    - The solution in this post <https://github.com/langchain-ai/langchain/issues/26884#issuecomment-2376276522> fixed the problem.
 
 **The plumbing work is killing the productivity.**
